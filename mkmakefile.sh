@@ -1,7 +1,24 @@
 #!/bin/bash
 
-# generate an makefile to generate gsoap code based on onvif's wsdl.
+###################################################################
+#  ___             _  __ 
+# / _ \ _ ____   _(_)/ _|
+#| | | | '_ \ \ / / | |_ 
+#| |_| | | | \ V /| |  _|
+# \___/|_| |_|\_/ |_|_|  
+#                        
+#           _                    _         __ _ _            _     
+# _ __ ___ | | ___ __ ___   __ _| | _____ / _(_) | ___   ___| |__  
+#| '_ ` _ \| |/ / '_ ` _ \ / _` | |/ / _ \ |_| | |/ _ \ / __| '_ \ 
+#| | | | | |   <| | | | | | (_| |   <  __/  _| | |  __/_\__ \ | | |
+#|_| |_| |_|_|\_\_| |_| |_|\__,_|_|\_\___|_| |_|_|\___(_)___/_| |_|
+#
+# generate an makefile to generate gsoap code based on onvif's wsdl.                                                                 
 
+
+#┏┓╻┏━┓┏━┓┏━╸╻┏━┓╻┏━┓┏┳┓
+#┃┗┫┣━┫┣┳┛┃  ┃┗━┓┃┗━┓┃┃┃
+#╹ ╹╹ ╹╹┗╸┗━╸╹┗━┛╹┗━┛╹ ╹
 # program narcisism -----------------------------------------------
 
 SCRIPT_NAME=mkmakefile.sh
@@ -20,7 +37,11 @@ echo "# based file: ${WSDL_FILE}"
 echo "# ---------------------------------------------"
 echo
 
-# -----------------------------------------------------------------
+
+#┏━╸╻ ╻┏┓╻┏━╸╺┳╸╻┏━┓┏┓╻┏━┓
+#┣╸ ┃ ┃┃┗┫┃   ┃ ┃┃ ┃┃┗┫┗━┓
+#╹  ┗━┛╹ ╹┗━╸ ╹ ╹┗━┛╹ ╹┗━┛
+##########################
 
 # var_envelope - encapsulates the variable for for echo the format ${VARIABLE}
 var_envelope(){
@@ -153,9 +174,27 @@ proxy_rule(){
 	echo -e "\trm -v ${envar_header}"
 }
 
+# env_rule
+env_rule(){
+	local ENV_RULE="\
+env:
+	[ -d env ] || mkdir -v env
+	touch env/env.h
+	soapcpp2 -penv -d env env/env.h
+"
+	echo "${ENV_RULE}"
+
+}
+
+
+#┏━╸┏━╸┏━┓╺┓ ┏━┓┏━┓
+#┗━┓┃  ┣┳┛ ┃ ┣━┛  ┃
+#┗━┛┗━╸╹┗╸╺┻╸╹    ╹
+# s  c  r  i  p  t
+###################
+
+
 # copy the directory 
-
-
 if [ ! $(diff "${MKMKFILE_PATH}/fixprox" "${PWD}/fixprox" &> /dev/null ) ]
 then
 	cp -r ${MKMKFILE_PATH}/fixprox ./.fixprox
@@ -181,7 +220,7 @@ do
 done < ${WSDL_FILE}
 
 # makefile's header
-echo "all: ${HPP_HEADER[@]}"
+echo "all: ${HPP_HEADER[@]} env"
 echo
 echo "GSOAP_PATH=/usr/share/gsoap/"
 
@@ -225,6 +264,9 @@ for (( i=0; i<"${#URL[@]}"; i++ ))
 do
 	makecppheader "${BASENAME[$i]}"
 done
+
+# env rule
+env_rule
 
 # dir rules
 echo
