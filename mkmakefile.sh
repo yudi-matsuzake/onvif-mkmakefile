@@ -22,7 +22,7 @@ echo
 
 # -----------------------------------------------------------------
 
-# var_envelope - função auxiliar para protejer a variável
+# var_envelope - encapsulates the variable for for echo the format ${VARIABLE}
 var_envelope(){
 	local var="$1"
 	echo '${'"$var"'}'
@@ -166,7 +166,7 @@ BASENAME=
 PROXY_CLIENT=
 HPP_HEADER=
 
-# constrói vetores...
+# build arrays
 i=0
 while read url
 do
@@ -180,12 +180,12 @@ do
 
 done < ${WSDL_FILE}
 
-# cabeça do makefile
+# makefile's header
 echo "all: ${HPP_HEADER[@]}"
 echo
 echo "GSOAP_PATH=/usr/share/gsoap/"
 
-# variáveis de url
+# url variables
 echo
 echo "# urls"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -194,7 +194,7 @@ do
 done
 
 
-# variáveis de diretório
+# dir variables
 echo
 echo "# paths"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -202,7 +202,7 @@ do
 	mkpath "${BASENAME[$i]}"
 done
 
-# variáveis de headers
+# header variables
 echo
 echo "# headers"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -210,7 +210,7 @@ do
 	mkheader "${BASENAME[$i]}"
 done
 
-# variáveis de namespace
+# namespace variables
 echo
 echo "# namespaces"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -218,7 +218,7 @@ do
 	mknamespace "${BASENAME[$i]}"
 done
 
-# variáveis de headers
+# header variables
 echo
 echo "# cpp headers"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -226,7 +226,7 @@ do
 	makecppheader "${BASENAME[$i]}"
 done
 
-# regra dos diretórios
+# dir rules
 echo
 echo "# PATH RULES---------------------------------------------------------"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -235,7 +235,7 @@ do
 	echo
 done
 
-# regra dos headers
+# header rules
 echo
 echo "# HEADERS RULES------------------------------------------------------"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -244,7 +244,7 @@ do
 	echo
 done
 
-# regra dos proxies
+# proxies rules
 echo
 echo "# PROXIES RULES------------------------------------------------------"
 for (( i=0; i<"${#URL[@]}"; i++ ))
@@ -253,7 +253,7 @@ do
 	echo
 done
 
-# regra dos headers cpp
+# header cpp rules
 echo
 echo "# CPP HEADERS RULES--------------------------------------------------"
 for (( i=0; i<"${#URL[@]}"; i++ ))
