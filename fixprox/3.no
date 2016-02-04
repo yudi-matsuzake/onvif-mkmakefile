@@ -1,0 +1,2 @@
+	if (soap_out_PointerToSOAP_ENV__Header(soap, "SOAP-ENV:Header", -1, &a->SOAP_ENV__Header, ""))
+		return soap->error;

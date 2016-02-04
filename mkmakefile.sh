@@ -144,7 +144,7 @@ proxy_rule(){
 	local envar_path="$(var_envelope ${MODULE_NAME}_PATH)"
 	local envar_header="$(var_envelope ${MODULE_NAME}_HEADER)"
 	local envar_gsoap="$(var_envelope GSOAP_PATH)"
-	local FIXPROX_PATH=./fixprox
+	local FIXPROX_PATH=./.fixprox
 
 	echo "${module_name}_client_proxy: ${FIXPROX_PATH}/fixprox.sh ${envar_header} ${envar_gsoap}"
 	echo -e "\tsoapcpp2 -jnCI${envar_gsoap} -xd${envar_path} ${envar_header}"
@@ -152,6 +152,18 @@ proxy_rule(){
 	echo -e "\t@echo Cleaning..."
 	echo -e "\trm -v ${envar_header}"
 }
+
+# copy the directory 
+
+echo "Copying the ${MKMKFILE_PATH}/fixprox path to ${PWD}/.fixprox..."
+
+if [ diff "${MKMKFILE_PATH}/fixprox" "${PWD}/fixprox" > /dev/null ]
+then
+	"Directory already exists"	
+else
+	"Copying"
+	cp -r ${MKMKFILE_PATH}/fixprox ./.fixprox
+fi
 
 URL=
 BASENAME=

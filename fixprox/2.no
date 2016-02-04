@@ -1,0 +1,5 @@
+			if (soap_flag_SOAP_ENV__Header && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToSOAP_ENV__Header(soap, "SOAP-ENV:Header", &a->SOAP_ENV__Header, ""))
+				{	soap_flag_SOAP_ENV__Header--;
+					continue;
+				}

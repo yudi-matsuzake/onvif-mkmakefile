@@ -1,0 +1,5 @@
+			if (soap_flag_Fault1 && soap->error == SOAP_TAG_MISMATCH)
+				if (soap_in_PointerToSOAP_ENV__Fault(soap, "tt:Fault", &(a->tt__ActionEngineEventPayload::Fault), ""))
+				{	soap_flag_Fault1--;
+					continue;
+				}
