@@ -156,9 +156,8 @@ proxy_rule(){
 # copy the directory 
 
 
-if [ $(diff "${MKMKFILE_PATH}/fixprox" "${PWD}/fixprox" > /dev/null) ]
+if [ ! $(diff "${MKMKFILE_PATH}/fixprox" "${PWD}/fixprox" &> /dev/null ) ]
 then
-	"Copying"
 	cp -r ${MKMKFILE_PATH}/fixprox ./.fixprox
 fi
 
