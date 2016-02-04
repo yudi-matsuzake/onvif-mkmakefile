@@ -155,12 +155,9 @@ proxy_rule(){
 
 # copy the directory 
 
-echo "Copying the ${MKMKFILE_PATH}/fixprox path to ${PWD}/.fixprox..."
 
-if [ diff "${MKMKFILE_PATH}/fixprox" "${PWD}/fixprox" > /dev/null ]
+if [ $(diff "${MKMKFILE_PATH}/fixprox" "${PWD}/fixprox" > /dev/null) ]
 then
-	"Directory already exists"	
-else
 	"Copying"
 	cp -r ${MKMKFILE_PATH}/fixprox ./.fixprox
 fi
