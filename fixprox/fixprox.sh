@@ -24,12 +24,18 @@ do
 		fix_line_begin="$(pcregrep -nM "$regex" "$prox_file" | head -n 1 | cut -f1 -d:)"
 		fix_line_end="$(( fix_line_begin + fix_nline ))"
 
-		echo -e "\tlbegin: $fix_line_begin"
-		echo -e "\tlend: $fix_line_end"
-		sed -i -e "${fix_line_begin}i${PREFIX}" -e "${fix_line_end}i${POSFIX}" "$prox_file"
-		# sed 
-		# a - append
-		# i - preppend
-		# sed -i 
+		if [ -z "$fix_line_begin" ]
+		then
+			echo "Pattern Not Found"
+		else
+			echo -e "\tlbegin: $fix_line_begin"
+			echo -e "\tlend: $fix_line_end"
+
+			# sed 
+			# a - append
+			# i - preppend
+			# sed -i 
+			sed -i -e "${fix_line_begin}i${PREFIX}" -e "${fix_line_end}i${POSFIX}" "$prox_file"
+		fi
 	done
 done
