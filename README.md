@@ -10,6 +10,12 @@ Script to generate the onvif's Makefile to generate the c++ client proxies code 
 
 * autofix the gsoap code for c++ namespaces. The original code does not compile with c++ namespaces and onvif specifications.
 
+## dependencies
+
+* `gsoap`
+
+* `pcregrep`
+
 ## how to use
 
 ### 1. Generate the Makefile
