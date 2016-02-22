@@ -56,7 +56,7 @@ $ g++ -c *.cpp
 
 ### 4. Compile the duration.c
 
-1. Change the file of the `#include` directive of soapH.h for DevicemgmtH.h or any module header in the duration.c file;
+1. Change the file of the `#include` directive from soapH.h to DevicemgmtH.h or any module header in the duration.c file;
 2. Compile the duration.c
 
 ```shell
