@@ -13,8 +13,28 @@
 #| | | | | |   <| | | | | | (_| |   <  __/  _| | |  __/_\__ \ | | |
 #|_| |_| |_|_|\_\_| |_| |_|\__,_|_|\_\___|_| |_|_|\___(_)___/_| |_|
 #
-# generate an makefile to generate gsoap code based on onvif's wsdl.                                                                 
+# generate an makefile to generate gsoap code based on onvif's wsdl.                                                            
 
+#-----[ＶＡＲＩＡＢＬＥＳ  ＡＬＬＯＷＥＤ  ＴＯ  ＣＨＡＮＧＥ]----#
+
+# typemap.dat gsoap file
+TYPEMAP_FILE=
+
+# remove generated .h file
+#  ( do not remove it is usefulfor debugin porpose )
+REMOVE_GENERATED_H=0
+
+# Enable WS-Security Plugin
+WS_SECURITY_PLUGIN=1
+
+# Name of env code
+ENV_MODULE=secenv
+
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#! 			ＢＥ  ＣＡＲＥＦＵＬ：			  !
+#!	 ＥＸＩＴＩＮＧ  ＳＡＦＥ ＴＯ ＥＤＩＴ  ＰＬＡＣＥ 	  !
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #┏┓╻┏━┓┏━┓┏━╸╻┏━┓╻┏━┓┏┳┓
 #┃┗┫┣━┫┣┳┛┃  ┃┗━┓┃┗━┓┃┃┃
@@ -110,9 +130,10 @@ header_rule(){
 	local envar_url="$(var_envelope ${MODULE_NAME}_WSDL_URL)"
 	local envar_header="$(var_envelope ${MODULE_NAME}_HEADER)"
 	local envar_namespace="$(var_envelope ${MODULE_NAME}_NAMESPACE)"
+	local include_typemap="${TYPEMAP_FILE:+-t ${TYPEMAP_FILE}}"
 
 	echo "${envar_header}: ${envar_path}"
-	echo -e "\twsdl2h -Pxq ${envar_namespace} -o ${envar_header} ${envar_url}"
+	echo -e "\twsdl2h -Pxq ${envar_namespace} -o ${envar_header} ${include_typemap} ${envar_url}"
 }
 
 # cpp_header_rule(){
@@ -170,20 +191,29 @@ proxy_rule(){
 	echo "${module_name}_client_proxy: ${FIXPROX_PATH}/fixprox.sh ${envar_header} ${envar_gsoap}"
 	echo -e "\tsoapcpp2 -jnCI${envar_gsoap} -xd${envar_path} ${envar_header}"
 	echo -e "\t${FIXPROX_PATH}/fixprox.sh ${envar_path}/*C.cpp"
-	echo -e "\t@echo Cleaning..."
-	echo -e "\trm -v ${envar_header}"
+
+	if [ "${REMOVE_GENERATED_H}" -eq 1 ]
+	then
+		echo -e "\t@echo Cleaning..."
+		echo -e "\trm -v ${envar_header}"
+	fi
 }
 
 # env_rule
 env_rule(){
+	local ENV_HEADER=""
+	if [ "${WS_SECURITY_PLUGIN}" -eq 1 ]
+	then
+		ENV_HEADER="#import \\\"wsse.h\\\""
+	fi
+
 	local ENV_RULE="\
-env:
-	[ -d env ] || mkdir -v env
-	touch env/env.h
-	soapcpp2 -penv -d env env/env.h
+${ENV_MODULE}:
+	[ -d ${ENV_MODULE} ] || mkdir -v ${ENV_MODULE}
+	echo "\"${ENV_HEADER}\"" > ${ENV_MODULE}/${ENV_MODULE}.h
+	soapcpp2 -p${ENV_MODULE} -d ${ENV_MODULE} ${ENV_MODULE}/${ENV_MODULE}.h
 "
 	echo "${ENV_RULE}"
-
 }
 
 
