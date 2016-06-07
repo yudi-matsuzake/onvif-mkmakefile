@@ -31,7 +31,7 @@ $ ./make/mkmakefile.sh > Makefile
 ### 2. Generate the modules code using the Makefile
 
 ```shell
-$ make env devicemgmt/devicemgmt.hpp ptz/ptz.hpp
+$ make secenv devicemgmt/devicemgmt.hpp ptz/ptz.hpp
 ```
 
 ### 3. Compile the the source code using the macro `WITH_NOIDREF`
@@ -43,10 +43,10 @@ $ cd ../ptz
 $ g++ -c -DWITH_NOIDREF *.cpp
 ```
 
-* compile `env/*.cpp`
+* compile `secenv/*.cpp`
 
 ```shell
-$ cd ../env
+$ cd ../secenv
 $ g++ -c *.cpp
 ```
 
@@ -133,6 +133,6 @@ int main(){
 
 ```shell
 
-$ g++ main.cpp devicemgmt/*.o ptz/*.o duration.o env/envC.o stdsoap2.o -o getDeviceInformation
+$ g++ main.cpp devicemgmt/*.o ptz/*.o duration.o secenv/secenvC.o stdsoap2.o -o getDeviceInformation
 
 ```

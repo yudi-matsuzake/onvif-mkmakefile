@@ -1,0 +1,2 @@
+	if (soap_out_PointerToSOAP_ENV__Fault(soap, "tt:Fault", -1, &a->tt__ActionEngineEventPayload::Fault, ""))
+		return soap->error;
