@@ -22,7 +22,7 @@ TYPEMAP_FILE=
 
 # remove generated .h file
 #  ( do not remove it is usefulfor debugin porpose )
-REMOVE_GENERATED_H=0
+REMOVE_GENERATED_H=1
 
 # Enable WS-Security Plugin
 WS_SECURITY_PLUGIN=1
